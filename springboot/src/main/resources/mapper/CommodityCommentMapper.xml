@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.CommodityCommentMapper">
+    <sql id="Base_Column_List">
+        id,content,user_id,pid,root_id,commodity_id,fid,ctime,utime
+    </sql>
+
+    <select id="selectAll" resultType="com.example.entity.CommodityComment">
+        select
+        commoditycomment.*, user.name as userName, user.avatar as avatar, u2.name as replyUser
+        from commoditycomment
+        left join user
+        on commoditycomment.user_id = user.id
+        left join commoditycomment c2
+        on commoditycomment.pid = c2.id
+        left join user u2
+        on c2.user_id = u2.id
+        <where>
+            <if test="userName != null"> and user.name like concat('%', #{userName}, '%')</if>
+            <if test="fid != null"> and commoditycomment.fid  = #{fid}</if>
+            <if test="rootId != null"> and commoditycomment.root_id = #{rootId}</if>
+        </where>
+    </select>
+
+    <select id="selectForUser" resultType="com.example.entity.CommodityComment">
+        select
+        commoditycomment.*, user.name as userName,  user.avatar as avatar
+        from commoditycomment
+        left join user
+        on commoditycomment.user_id = user.id
+        <where>
+            <if test="userName != null"> and user.name like concat('%', #{userName}, '%')</if>
+            <if test="fid != null"> and commoditycomment.fid  = #{fid}</if>
+            and pid is null
+        </where>
+        order by id desc
+    </select>
+
+    <select id="selectById" resultType="com.example.entity.CommodityComment">
+        select
+        <include refid="Base_Column_List" />
+        from commoditycomment
+        where id = #{id}
+    </select>
+
+    <delete id="deleteById">
+        delete from commoditycomment
+        where  id = #{id}
+    </delete>
+
+    <insert id="insert" parameterType="com.example.entity.CommodityComment" useGeneratedKeys="true" keyProperty="id">
+        insert into commoditycomment
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="content != null">content,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="pid != null">pid,</if>
+            <if test="rootId != null">root_id,</if>
+            <if test="fid != null">fid,</if>
+            <if test="ctime != null">ctime,</if>
+            <if test="utime != null">utime,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="content != null">#{content},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="pid != null">#{pid},</if>
+            <if test="rootId != null">#{rootId},</if>
+            <if test="fid != null">#{fid},</if>
+            <if test="ctime != null">#{ctime},</if>
+            <if test="utime != null">#{utime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateById" parameterType="com.example.entity.CommodityComment">
+        update commoditycomment
+        <set>
+            <if test="content != null">
+                content = #{content},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="pid != null">
+                pid = #{pid},
+            </if>
+            <if test="rootId != null">
+                root_id = #{rootId},
+            </if>
+            <if test="fid != null">
+                fid = #{fid},
+            </if>
+            <if test="ctime != null">
+                time = #{ctime},
+            </if>
+            <if test="utime != null">
+                time = #{utime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+</mapper>
