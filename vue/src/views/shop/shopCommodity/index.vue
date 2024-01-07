@@ -8,21 +8,32 @@
         <div class="grid-content ">
           <br/><br/>
           <div class="ContentTitle">
-            <p><a href="#">所有游戏</a>><a href="#">{{commodityData.name}}</a></p>
-            <span>{{commodityData.name}}</span>
+            <p><a href="#">所有游戏</a>><a href="#">{{ commodityData.name }}</a></p>
+            <span>{{ commodityData.name }}</span>
           </div>
           <br/>
-          <el-carousel height="10rem">
+          <el-carousel height="20rem">
             <el-carousel-item>
-              <!-- <h3 class="small">{{ item }}</h3> -->
-              <video id="bgvid" autoplay="autoplay" loop="loop"
-                     muted="muted" src="">
-                <source src="image/star.mp4" type="video/mp4">
-              </video>
+              <el-image
+                  style="width: 100%;height: 100%;position: absolute"
+                  :src="commodityData.avatar"
+                  :preview-src-list="commodityData.avatar">
+              </el-image>
             </el-carousel-item>
           </el-carousel>
 
-
+          <div style="margin-top: 30px">
+            <el-row :gutter="20">
+              <el-col plain style="font-size: 1.5rem;background: #434953;color: #67c1f5;" :span="20"><div style="position: relative" class="grid-content">
+                <span >
+                  购买 {{ commodityData.name }} ￥{{ commodityData.price }}
+                </span>
+              </div></el-col>
+              <el-col :span="4"><div class="grid-content">
+                <el-button type="primary" @click="buy(commodityData)" round>加入购物车 <span class="el-icon-s-goods"></span></el-button>
+              </div></el-col>
+            </el-row>
+          </div>
           <div class="SysInfo"><br/><br/>
             <span color="#FFFFFF">评测</span><br/>
             <el-divider></el-divider>
@@ -144,14 +155,14 @@
                 <el-card shadow="hover" style="background: #14131a;border: 0rem;">
                   <div class="AskInfo">
                     <p>基于您的游戏、好友以及您关注的鉴赏家，登录以查看您是否有可能喜欢这个内容的原因。</p>
-                    <el-row class="row-bg" style="font-size: 0.3rem;" type="flex">
+                    <el-row class="row-bg" style="font-size: 0.9rem;" type="flex">
                       <el-col :span="24">
                         <div class="grid-content">
-                          <el-button plain style="font-size: 0.3rem;background: #434953;color: #67c1f5;" type="primary">
+                          <el-button plain style="font-size: 1rem;background: #434953;color: #67c1f5;" type="primary">
                             登陆
                           </el-button>
                           或者
-                          <el-button plain style="font-size: 0.3rem;background: #434953;color: #67c1f5;" type="primary">
+                          <el-button plain style="font-size: 1rem;background: #434953;color: #67c1f5;" type="primary">
                             在STEAM打开
                           </el-button>
                         </div>
@@ -166,7 +177,8 @@
         </div>
       </el-col>
     </el-row>
-    <Comment style="background-color: #011627;color: white" :fid="commodityid" module='游戏评论' />
+    <!--    评论区-->
+    <Comment :fid="commodityid" module='游戏评论' style="background-color: #011627;color: white"/>
   </div>
 </template>
 
@@ -176,7 +188,7 @@ import request from "@/utils/request";
 
 export default {
   name: "index",
-  components:{
+  components: {
     Comment
   },
   data() {
@@ -184,7 +196,7 @@ export default {
     return {
       commodityData: {},
       commodityid: commodityid,
-      shopuser: localStorage.getItem("shopuser")
+      user: JSON.parse(localStorage.getItem('xm-user') || '{}'),
     }
   },
   mounted() {
@@ -192,6 +204,11 @@ export default {
   },
   // methods：本页面所有的点击事件或者其他函数定义区
   methods: {
+    buy(row){
+      request.post('/orders/add', { goodsName: row.name, num: 1, total: 1 ,userid:this.user.id}).then(res => {
+        this.$message.success('以加入购物车！')
+      })
+    },
     loadHotels() {
       request.get('/commodity/selectById/' + this.commodityid).then(res => {
         if (res.code === '200') {
