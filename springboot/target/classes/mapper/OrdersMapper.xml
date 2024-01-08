@@ -5,7 +5,7 @@
 
 <mapper namespace="com.example.mapper.OrdersMapper">
     <sql id="Base_Column_List">
-        id,order_no,goods_name,num,total,create_time,pay_no,pay_time,status,userid
+        id,order_no,goods_name,num,total,create_time,pay_no,pay_time,status,userid,commodityid
     </sql>
 
     <select id="selectAll" resultType="com.example.entity.Orders">
@@ -34,6 +34,7 @@
         where id = #{id}
     </select>
 
+
     <delete id="deleteById">
         delete from orders
         where  id = #{id}
@@ -52,6 +53,7 @@
             <if test="payTime != null">pay_time,</if>
             <if test="status != null">status,</if>
             <if test="userid != null">userid,</if>
+            <if test="commodityid != null">commodityid,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">#{id},</if>
@@ -64,6 +66,7 @@
             <if test="payTime != null">#{payTime},</if>
             <if test="status != null">#{status},</if>
             <if test="status != null">#{userid},</if>
+            <if test="commodityid != null">#{commodityid},</if>
         </trim>
     </insert>
 

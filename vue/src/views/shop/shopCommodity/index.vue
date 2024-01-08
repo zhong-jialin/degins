@@ -15,23 +15,32 @@
           <el-carousel height="20rem">
             <el-carousel-item>
               <el-image
-                  style="width: 100%;height: 100%;position: absolute"
+                  :preview-src-list="commodityData.avatar"
                   :src="commodityData.avatar"
-                  :preview-src-list="commodityData.avatar">
+                  style="width: 100%;height: 100%;position: absolute">
               </el-image>
             </el-carousel-item>
           </el-carousel>
 
           <div style="margin-top: 30px">
-            <el-row :gutter="20">
-              <el-col plain style="font-size: 1.5rem;background: #434953;color: #67c1f5;" :span="20"><div style="position: relative" class="grid-content">
-                <span >
+            <el-row :gutter="19">
+              <el-col :span="20" plain style="font-size: 1.5rem;background: #434953;color: #67c1f5;">
+                <div class="grid-content" style="position: relative">
+                <span>
                   购买 {{ commodityData.name }} ￥{{ commodityData.price }}
                 </span>
-              </div></el-col>
-              <el-col :span="4"><div class="grid-content">
-                <el-button type="primary" @click="buy(commodityData)" round>加入购物车 <span class="el-icon-s-goods"></span></el-button>
-              </div></el-col>
+                </div>
+              </el-col>
+              <el-col :span="4">
+                <div v-if="!Isbuy" class="grid-content">
+                  <el-button round type="primary" @click="buy(commodityData)">加入购物车
+                    <span class="el-icon-s-goods"></span></el-button>
+                </div>
+                <div v-else class="grid-content">
+                  <el-button round disabled type="primary">已加入购物车
+                    <span class="el-icon-s-goods"></span></el-button>
+                </div>
+              </el-col>
             </el-row>
           </div>
           <div class="SysInfo"><br/><br/>
@@ -197,16 +206,38 @@ export default {
       commodityData: {},
       commodityid: commodityid,
       user: JSON.parse(localStorage.getItem('xm-user') || '{}'),
+      Isbuy: false
     }
   },
   mounted() {
     this.loadHotels()
+    this.checkOrder()
   },
   // methods：本页面所有的点击事件或者其他函数定义区
   methods: {
-    buy(row){
-      request.post('/orders/add', { goodsName: row.name, num: 1, total: 1 ,userid:this.user.id}).then(res => {
+    checkOrder() {
+      this.$request.get('/orders/selectByUserId', {
+        params: { userid: this.user.id, commodityid: this.commodityid }
+      }).then(res => {
+        console.log(res)
+        if (res.code === '200') {
+          if (res.data === 1){
+            this.Isbuy=true
+            console.log(this.Isbuy)
+          }else {
+            this.Isbuy=false
+            console.log(this.Isbuy)
+          }
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
+    },
+    buy(row) {
+      request.post('/orders/add', {goodsName: row.name, num: 1, total: 1, userid: this.user.id,commodityid:this.commodityid}).then(res => {
         this.$message.success('以加入购物车！')
+        this.checkOrder()
+        this.loadHotels()
       })
     },
     loadHotels() {
@@ -217,6 +248,7 @@ export default {
         } else {
           this.$message.error(res.msg)
         }
+
       })
     },
   }

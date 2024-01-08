@@ -2,6 +2,7 @@ package com.example.controller;
 
 
 import com.example.common.Result;
+import com.example.entity.Comment;
 import com.example.entity.Orders;
 import com.example.service.OrdersService;
 import com.github.pagehelper.PageInfo;
@@ -60,6 +61,16 @@ public class OrdersController {
     public Result selectById(@PathVariable Integer id) {
         Orders orders = ordersService.selectById(id);
         return Result.success(orders);
+    }
+
+
+    /**
+     * 根据userID查询
+     */
+    @GetMapping("/selectByUserId")
+    public Result selectByUserId(@RequestParam Integer userid,@RequestParam Integer commodityid) {
+        Integer count = ordersService.selectByUserId(userid,commodityid);
+        return Result.success(count);
     }
 
     /**

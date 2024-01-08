@@ -27,6 +27,15 @@ public class Orders implements Serializable {
     private String status;
 
     private Integer userid;
+    private Integer commodityid;
+
+    public Integer getCommodityid() {
+        return commodityid;
+    }
+
+    public void setCommodityid(Integer commodityid) {
+        this.commodityid = commodityid;
+    }
 
     public Integer getUserid() {
         return userid;

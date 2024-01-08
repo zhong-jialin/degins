@@ -2,6 +2,8 @@ package com.example.service;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.IdUtil;
+import cn.hutool.db.sql.Order;
+import com.example.entity.Comment;
 import com.example.entity.Orders;
 import com.example.mapper.OrdersMapper;
 import com.github.pagehelper.PageHelper;
@@ -24,6 +26,7 @@ public class OrdersService {
         orders.setOrderNo(IdUtil.getSnowflakeNextIdStr());
         orders.setStatus("待支付");
         orders.setUserid(orders.getUserid());
+        orders.setCommodityid(orders.getCommodityid());
         orders.setCreateTime(DateUtil.now());
         ordersMapper.insert(orders);
     }
@@ -76,5 +79,9 @@ public class OrdersService {
 
     public Orders selectByOrderNo(String orderNo) {
         return ordersMapper.selectByOrderNo(orderNo);
+    }
+
+    public Integer selectByUserId(Integer userid,Integer commodityid) {
+        return ordersMapper.selectByUserId(userid,commodityid);
     }
 }

@@ -1,6 +1,7 @@
 package com.example.mapper;
 
 import com.example.entity.Orders;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -35,4 +36,7 @@ public interface OrdersMapper {
 
     @Select("select * from orders where order_no = #{orderNo}")
     Orders selectByOrderNo(String orderNo);
+
+    @Select("select count(*) from orders where userid = #{userid} and commodityid = #{commodityid}")
+    Integer selectByUserId(@Param("userid") Integer userid, @Param("commodityid") Integer commodityid);
 }

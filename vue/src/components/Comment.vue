@@ -11,13 +11,13 @@
     </div>
 
     <div>
-      <div style="display: flex; grid-gap: 20px; margin-bottom: 20px" v-for="item in commentList" :key="item.id">
+      <div  style="display: flex; grid-gap: 20px; margin-bottom: 20px;color: white" v-for="item in commentList" :key="item.id">
         <img :src="item.avatar" alt="" style="width: 50px; height: 50px; border-radius: 50%">
         <div style="flex: 1">
           <!--                这是第一级评论-->
           <div style="margin-bottom: 10px">
-            <div style="color: #666; margin-bottom: 10px">{{ item.userName }}</div>
-            <div style="color: #444; margin-bottom: 10px">{{ item.content }}</div>
+            <div style="color: #666; margin-bottom: 10px;color: white">{{ item.userName }}</div>
+            <div style="color: #444; margin-bottom: 10px;color: white">{{ item.content }}</div>
             <div style="color: #888; font-size: 13px; margin-bottom: 10px"><span style="margin-right: 20px">{{ item.time }}</span>
               <span style="cursor: pointer;" :class="{ 'comment-active' : item.showReplyInput }" @click="handleShowReplyInput(item)"><i class="el-icon-s-comment"></i>评论</span>
               <span style="margin-left: 20px; cursor: pointer" @click="del(item.id)" v-if="item.userId === user.id"><i class="el-icon-delete"></i>删除</span>
@@ -33,8 +33,8 @@
           <div style="display: flex;  grid-gap: 20px; margin-bottom: 20px" v-for="sub in item.children" :key="sub.id">
             <img :src="sub.avatar" alt="" style="width: 50px; height: 50px; border-radius: 50%">
             <div style="flex: 1">
-              <div style="color: #666; margin-bottom: 10px">{{ sub.userName }} <span style="color: #333" v-if="sub.replyUser !== item.userName">回复  {{ sub.replyUser }}</span></div>
-              <div style="color: #444; margin-bottom: 10px">{{ sub.content }}</div>
+              <div style="color: #666; margin-bottom: 10px;color: white">{{ sub.userName }} <span style="color: #333" v-if="sub.replyUser !== item.userName">回复  {{ sub.replyUser }}</span></div>
+              <div style="color: #444; margin-bottom: 10px;color: white">{{ sub.content }}</div>
               <div style="color: #888; font-size: 13px; margin-bottom: 10px"><span style="margin-right: 20px">{{ sub.time }}</span>
                 <span style="cursor: pointer;" :class="{ 'comment-active' : sub.showReplyInput }" @click="handleShowReplyInput(sub)"><i class="el-icon-s-comment"></i>评论</span>
                 <span style="margin-left: 20px; cursor: pointer" @click="del(sub.id)" v-if="sub.userId === user.id"><i class="el-icon-delete"></i>删除</span>

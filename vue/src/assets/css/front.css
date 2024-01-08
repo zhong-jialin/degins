@@ -1,5 +1,6 @@
 body {
-    background-color: #e4e6eb;
+    background-color: #011627;
+    background-image: url("@/assets/imgs/blogbg.jpg");
 }
 
 .front-notice {
