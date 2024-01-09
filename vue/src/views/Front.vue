@@ -14,6 +14,7 @@
 						<el-menu-item index="/front/home">论坛</el-menu-item>
 						<el-menu-item index="/front/activity">活动中心</el-menu-item>
 						<el-menu-item index="/front/person">个人中心</el-menu-item>
+						<el-menu-item index="/front/wishlist">我的购物车</el-menu-item>
           </el-menu>
         </div>
       </div>

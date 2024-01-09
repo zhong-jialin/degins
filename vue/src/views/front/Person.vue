@@ -38,10 +38,12 @@
         <div class="card" style="padding: 5px; display: flex">
           <div class="category-btn" :class="{ 'active' : commentCurrent === '博客' }"  @click="commentCurrent = '博客'">博客</div>
           <div class="category-btn" :class="{ 'active' : commentCurrent === '活动' }" @click="commentCurrent = '活动'">活动</div>
+          <div class="category-btn" :class="{ 'active' : commentCurrent === '游戏评论' }" @click="commentCurrent = '游戏评论'">游戏评论</div>
         </div>
         <div style="margin-top: 10px">
           <blog-list v-if="commentCurrent === '博客'" type="comment"></blog-list>
           <activity-list v-if="commentCurrent === '活动'" :span="8" type="comment"></activity-list>
+          <activity-list v-if="commentCurrent === '游戏评论'" :span="8" type="comment"></activity-list>
         </div>
       </el-tab-pane>
     </el-tabs>

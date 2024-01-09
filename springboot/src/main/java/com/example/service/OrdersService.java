@@ -84,4 +84,8 @@ public class OrdersService {
     public Integer selectByUserId(Integer userid,Integer commodityid) {
         return ordersMapper.selectByUserId(userid,commodityid);
     }
+
+    public Orders selectByorderId(Integer userid) {
+        return ordersMapper.selectByorderId(userid);
+    }
 }

@@ -97,6 +97,7 @@ const routes = [
             {path: 'shop',name: 'Shop',mate:{name: '系统首页'}, component: () => import('@/views/shop/shopIndex/index.vue')},
             {path: 'shopcommodity',name: 'shopcommodity',mate:{name: '商品详情页'}, component: () => import('@/views/shop/shopCommodity/index.vue')},
             {path: 'home', name: 'FHome', meta: {name: '系统论坛'}, component: () => import('../views/front/Home')},
+            {path: 'wishlist', name: 'WishList', meta: {name: '购物车'}, component: () => import('../views/front/WishList')},
             {
                 path: 'person',
                 name: 'Person',

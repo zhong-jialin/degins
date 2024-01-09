@@ -65,12 +65,21 @@ public class OrdersController {
 
 
     /**
-     * 根据userID查询
+     * 根据userID和商品ID查询
      */
     @GetMapping("/selectByUserId")
     public Result selectByUserId(@RequestParam Integer userid,@RequestParam Integer commodityid) {
         Integer count = ordersService.selectByUserId(userid,commodityid);
         return Result.success(count);
+    }
+
+    /**
+     * 根据userID查询
+     */
+    @GetMapping("/selectByorderId/{id}")
+    public Result selectByorderId(@PathVariable Integer userid) {
+        Orders orders = ordersService.selectByorderId(userid);
+        return Result.success(orders);
     }
 
     /**

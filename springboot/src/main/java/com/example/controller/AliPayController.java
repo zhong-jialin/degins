@@ -59,7 +59,7 @@ public class AliPayController {
         bizContent.set("subject", orders.getGoodsName());   // 支付的名称
         bizContent.set("product_code", "FAST_INSTANT_TRADE_PAY");  // 固定配置
         request.setBizContent(bizContent.toString());
-        request.setReturnUrl("http://localhost:8080/orders"); // 支付完成后自动跳转到本地页面的路径
+        request.setReturnUrl("http://localhost:8080/front/wishlist"); // 支付完成后自动跳转到本地页面的路径
         // 执行请求，拿到响应的结果，返回给浏览器
         String form = "";
         try {
@@ -99,6 +99,7 @@ public class AliPayController {
                 System.out.println("买家付款时间: " + params.get("gmt_payment"));
                 System.out.println("买家付款金额: " + params.get("buyer_pay_amount"));
                 System.out.println("卖家id" + params.get("userid"));
+                System.out.println("商品id" + params.get("commodityid"));
 
 
                 String tradeNo = params.get("out_trade_no");

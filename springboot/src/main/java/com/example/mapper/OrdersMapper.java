@@ -39,4 +39,6 @@ public interface OrdersMapper {
 
     @Select("select count(*) from orders where userid = #{userid} and commodityid = #{commodityid}")
     Integer selectByUserId(@Param("userid") Integer userid, @Param("commodityid") Integer commodityid);
+    @Select("select * from orders where userid = #{userid}")
+    Orders selectByorderId(Integer userid);
 }
